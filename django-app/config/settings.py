@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'post',
-    'django-extensions'
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
