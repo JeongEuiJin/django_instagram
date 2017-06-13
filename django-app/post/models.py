@@ -5,7 +5,7 @@ from django.db import models
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
-    photo = models.ImageField(blank=True)
+    photo = models.ImageField(upload_to='post',blank=True)
     create_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     like_users = models.ManyToManyField(
@@ -15,7 +15,7 @@ class Post(models.Model):
     )
     tags = models.ManyToManyField(
         'Tag',
-
+        blank=True,
     )
 
     def add_comment(self, user, content):
