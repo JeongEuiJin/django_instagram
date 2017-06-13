@@ -2,13 +2,6 @@
 {% block content%}
 
     {% for post in posts %}
-     <div>
-         <span>{{post.id}}</span>
-         <span>{{post.url}}</span>
-         <img src="{{post.photo.url}}">
-
-
-     </div>
-    
+     {%include 'include/post.html'%}
     {% endfor %}
 {% endblock %}
