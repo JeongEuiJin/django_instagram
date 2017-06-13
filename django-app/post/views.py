@@ -21,9 +21,9 @@ def post_list(request):
 def post_detail(request, post_pk):
     try:
         post = Post.objects.get(pk=post_pk)
-    except Post.DoseNotExist as e:
-        # return HttpResponseNotFound('post not found, detail: {}'.format(e))
+    except Post.DoesNotExist as e:
         return redirect('post:post_list')
+
     template = loader.get_template('post/post_detail.html')
 
     context = {

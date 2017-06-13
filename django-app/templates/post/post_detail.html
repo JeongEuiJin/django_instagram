@@ -1,14 +1,18 @@
-<!doctype html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    {{post}}
+{% extends 'common/base.html'%}
+{% block content%}
 
-</body>
-</html>
+    <img src="{{post.photo.url}}" alt="">
+    <div>{{post.author}}</div>
+    <!--<div>{{post.like_count}}</div>-->
+    {% if post.comment_set.all %}
+        {% for comment in post.comment_set.all %}
+            <div>
+                <div>작성자 : {{comment.author}}</div>
+                <div>내용 : {{comment.content}}</div>
+                <div>작성일자 : {{comment.created_date}}</div>
+            </div>
+    {% endfor %}
+        <div>댓글이 없습니다.</div>
+    {% endif %}
+
+{%endblock%}
