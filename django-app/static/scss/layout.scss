@@ -1,15 +1,15 @@
+@import 'variables';
+
 #wrap {}
 $screen-table: 700px;
 $header-height: 83px;
 
 header.top-header {
-  height: $header-height;
-  padding: 0 10px;
-  padding: 0 auto;
-  border-bottom: 1px solid rgba(0,0,0,.0975);
+  border-bottom: 1px solid $color-border;
 }
 
-header.top-header > nav {
+header.top-header > nav:nth-child(1) {
+  padding: 0 10px;
   max-width: 1010px;
   margin: 0 auto;
   height: $header-height;
@@ -54,6 +54,15 @@ header.top-header > nav {
     a {
       padding: 0 10px;
     }
+  }
+}
+header.top-header > nav:nth-child(2){
+  border-top: 1px solid $color-border;
+  padding: 8px 0;
+  text-align: right;
+  > div {
+    max-width: 1010px;
+    margin: 0 auto;
   }
 }
 
