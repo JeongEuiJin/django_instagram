@@ -20,7 +20,9 @@ from django.contrib import admin
 from config import settings
 
 urlpatterns = [
-                  url(r'^admin/', admin.site.urls),
-                  # url(r'^$', post_views.index, name = 'home'),
-                  url(r'^post/', include('post.urls')),
-] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    url(r'^admin/', admin.site.urls),
+    # url(r'^$', post_views.index, name = 'home'),
+    url(r'^post/', include('post.urls')),
+    url(r'^member/',include('member.urls')),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

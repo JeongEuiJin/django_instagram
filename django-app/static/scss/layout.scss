@@ -5,6 +5,7 @@ $header-height: 83px;
 header.top-header {
   height: $header-height;
   padding: 0 10px;
+  padding: 0 auto;
   border-bottom: 1px solid rgba(0,0,0,.0975);
 }
 
