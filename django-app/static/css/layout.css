@@ -3,9 +3,9 @@ header.top-header {
 }
 
 header.top-header > nav:nth-child(1) {
-  padding: 0 10px;
   max-width: 1010px;
   margin: 0 auto;
+  padding: 0 10px;
   height: 83px;
 }
 
@@ -62,7 +62,7 @@ header.top-header > nav:nth-child(2) > div {
 }
 
 .container {
-  min-width: 1010px;
+  max-width: 1010px;
   margin: 0 auto;
   padding-top: 40px;
 }

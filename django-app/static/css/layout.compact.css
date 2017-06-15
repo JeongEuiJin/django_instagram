@@ -1,6 +1,6 @@
 header.top-header { border-bottom: 1px solid rgba(0, 0, 0, 0.0975); }
 
-header.top-header > nav:nth-child(1) { padding: 0 10px; max-width: 1010px; margin: 0 auto; height: 83px; }
+header.top-header > nav:nth-child(1) { max-width: 1010px; margin: 0 auto; padding: 0 10px; height: 83px; }
 
 header.top-header > nav:nth-child(1) .nav-item { height: 83px; line-height: 83px; }
 
@@ -22,6 +22,6 @@ header.top-header > nav:nth-child(2) { border-top: 1px solid rgba(0, 0, 0, 0.097
 
 header.top-header > nav:nth-child(2) > div { max-width: 1010px; margin: 0 auto; }
 
-.container { min-width: 1010px; margin: 0 auto; padding-top: 40px; }
+.container { max-width: 1010px; margin: 0 auto; padding-top: 40px; }
 
 @media screen and (max-width: 700px) { .container { padding-top: 0; } }

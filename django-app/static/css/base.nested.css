@@ -14,7 +14,7 @@ input[type=text], input[type=password] {
 a {
   color: #262626;
   text-decoration: none; }
-  ahover {
+  a:hover {
     text-decoration: underline; }
 
 .test {

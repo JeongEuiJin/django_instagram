@@ -4,6 +4,6 @@ input[type=text], input[type=password] { border: 1px solid #dbdbdb; border-radiu
 
 a { color: #262626; text-decoration: none; }
 
-ahover { text-decoration: underline; }
+a:hover { text-decoration: underline; }
 
 .test { padding: 10px; color: white; background-color: red; font-size: 14px; }
