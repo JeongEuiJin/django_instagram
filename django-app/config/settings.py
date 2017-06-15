@@ -25,6 +25,7 @@ STATICFILES_DIRS = [
 #custom
 AUTH_USER_MODEL = 'member.User'
 
+
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
