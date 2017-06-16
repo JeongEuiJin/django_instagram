@@ -8,8 +8,12 @@
   font-size: 11px;
 }
 
+.field-wrapper {
+  margin-bottom: 10px;
+}
+
 .field-wrapper ul.error {
-  font-size: 13px;
+  font-size: 11px;
   color: red;
   font-weight: bold;
   padding-left: 5px;

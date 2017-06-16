@@ -60,13 +60,26 @@ header.top-header > nav:nth-child(2) {
   }
 }
 
-.container > .content {
-  padding-left: 10px;
-  padding-right: 10px;
+form.form-inline-login{
+  font-size: 11px;
+
+  label{
+    margin-right: 5px;
+  }
+  input {
+    padding: 5px 8px;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+}
+.container {
   max-width: 1010px;
   margin: 0 auto;
   padding-top: 40px;
   @media screen and (max-width: $screen-tablet) {
     padding-top: 0;
   }
+}
+.container > .content {
+  padding: 10px;
 }

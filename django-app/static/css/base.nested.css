@@ -11,6 +11,9 @@ input[type=text], input[type=password] {
   padding: 6px 10px;
   background-color: #fafafa; }
 
+input[type=photo] {
+  font-size: 10px; }
+
 a {
   color: #262626;
   text-decoration: none; }

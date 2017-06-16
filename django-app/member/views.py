@@ -12,8 +12,8 @@ def login(request):
     if request.method == 'POST':
         form = LoginForm(data=request.POST)
         if form.is_valid():
-            user = form.cleaned_data_data['user']
-            django_logout(request, user)
+            user = form.cleaned_data['user']
+            django_login(request, user)
             return redirect('post:post_list')
         else:
             return HttpResponse('Logins credentaials invalid')
@@ -36,22 +36,9 @@ def signup(request):
     if request.method == 'POST':
         form = SigupForm(data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password1 = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password2']
-            if User.objects.filter(username=username).exists():
-                return HttpResponse('Username is already exist')
-            elif password1 != password2:
-                return HttpResponse('password check is not equal')
-            user = User.objects.create_user(
-                username=username,
-                password=password1
-            )
-
-            django_login(request, user)
+            user = form.create_user()
+            django_login()
             return redirect('post:post_list')
-        else:
-            return HttpResponse('Form invalid')
     else:
         form = SigupForm()
     context = {
