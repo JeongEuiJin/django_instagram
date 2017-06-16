@@ -60,7 +60,9 @@ header.top-header > nav:nth-child(2) {
   }
 }
 
-.container {
+.container > .content {
+  padding-left: 10px;
+  padding-right: 10px;
   max-width: 1010px;
   margin: 0 auto;
   padding-top: 40px;

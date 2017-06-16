@@ -1,39 +1,30 @@
-from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout, get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .models import User
+from .forms import LoginForm
+from .forms import SigupForm
+
+User = get_user_model()
 
 
 def login(request):
-    # member/login.html생성
-    # username , password,button이 있는 html생성
-    # post요청이 올 경우 좌측 코드를 기반으로 로그인 완료 후 post_list이동
-    # 실패할 경우 httpresponse로 login invalid!띄워주기
-
-    # member/urls.py 생성
-    #   /member/login/으로 접근시 이 view로 오도록 설정
-    #   config/urls.py에 member/urls.py를 include
-    #       member/urls.py에 app_name설정으로 namespace지정
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
-        if user is not None:
-            django_login(request, user)
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.cleaned_data_data['user']
+            django_logout(request, user)
             return redirect('post:post_list')
         else:
             return HttpResponse('Logins credentaials invalid')
-
-
     else:
         if request.user.is_authenticated:
             return redirect('post:post_list')
-        return render(request, 'member/login.html')
+        form = LoginForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'member/login.html', context)
 
 
 def logout(request):
@@ -42,21 +33,28 @@ def logout(request):
 
 
 def signup(request):
-    # member/signup.html을 사용
-    # username, passowrd1, password2를 받아 회원가입
-    # 이미 유저가 존재하는지 검사
-    # password1, 2 가 일치하는지 검사
-    # 각각의 경우를 검새해서 틀릴경우 오류메시지 리턴
-    # 가입에 성공시 로그인시키고 post_list로 리다이렉트
-
     if request.method == 'POST':
-        # username = request.POST['username']
-        # password1 = request.POST['password1']
-        # password2 = request.POST['password2']
-        # if User.objects.filter(username=username).exsit()
-        #
-        # else:
-        #     User.objects.create_user(username)
+        form = SigupForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
+            if User.objects.filter(username=username).exists():
+                return HttpResponse('Username is already exist')
+            elif password1 != password2:
+                return HttpResponse('password check is not equal')
+            user = User.objects.create_user(
+                username=username,
+                password=password1
+            )
 
+            django_login(request, user)
+            return redirect('post:post_list')
+        else:
+            return HttpResponse('Form invalid')
     else:
-        return render(request,'member/signup.html')
+        form = SigupForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'member/signup.html', context)
