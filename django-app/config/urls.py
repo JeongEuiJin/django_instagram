@@ -18,11 +18,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 # from post import views as post_views
 from config import settings
+from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    # url(r'^$', post_views.index, name = 'home'),
     url(r'^post/', include('post.urls')),
     url(r'^member/',include('member.urls')),
+    url(r'^$',views.main_post,name='main_post'),
+    # url(r'^$',RedirectViews.as_view()
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
