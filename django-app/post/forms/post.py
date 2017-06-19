@@ -1,6 +1,9 @@
 from django import forms
+from django.contrib.auth import get_user_model
+
 from ..models import Post, Comment
 
+User = get_user_model()
 
 class PostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -25,7 +28,8 @@ class PostForm(forms.ModelForm):
         commit = kwargs.get('commit', True)
         author = kwargs.pop('author', None)
 
-        self.instance.author = author
+        if not self.instance.pk or isinstance(author,User):
+            self.instance.author = author
         instance = super().save(**kwargs)
 
         comment_string = self.cleaned_data['comment']
