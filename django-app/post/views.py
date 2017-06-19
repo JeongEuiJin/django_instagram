@@ -25,6 +25,8 @@ def post_list(request):
     return render(request, 'post/post_list.html', context)
 
 
+
+
 def post_detail(request, post_pk):
     try:
         post = Post.objects.get(pk=post_pk)
@@ -42,27 +44,39 @@ def post_detail(request, post_pk):
 
     return HttpResponse(rendered_string)
 
+
 @login_required
 def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
     if request.method == 'POST':
-    #     user = User.objects.first()
-    #     post = Post.objects.create(
-    #         author=user,
-    #         photo=request.FILES['photo'],
-    #     )
-    #     comment_string = request.POST.get('comment', '')
-    #     if comment_string:
-    #         post.comment_set.create(
-    #             author=user,
-    #             content=comment_string,
-    #         )
-    #
+        #     user = User.objects.first()
+        #     post = Post.objects.create(
+        #         author=user,
+        #         photo=request.FILES['photo'],
+        #     )
+        #     comment_string = request.POST.get('comment', '')
+        #     if comment_string:
+        #         post.comment_set.create(
+        #             author=user,
+        #             content=comment_string,
+        #         )
+        #
         form = PostForm(data=request.POST, files=request.FILES)
         if form.is_valid():
-            post=form.save(commit=False)
-            post.author = request.user
-            post.save()
+            post = form.save(
+                # commit=False,
+                author=request.user
+            )
+            # post.author = request.user
+            # post.save()
+
+            # comment_string = form.cleaned_data['comment']
+            # if comment_string:
+            #     post.comment_set.create(
+            #         author=post.author,
+            #         content=comment_string,
+            #     )
+
             return redirect('post:post_detail', post_pk=post.pk)
     else:
         form = PostForm()
@@ -75,6 +89,7 @@ def post_create(request):
 
 def post_modify(request, post_pk):
     # 수정
+
     pass
 
 
