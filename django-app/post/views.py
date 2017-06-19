@@ -25,8 +25,6 @@ def post_list(request):
     return render(request, 'post/post_list.html', context)
 
 
-
-
 def post_detail(request, post_pk):
     try:
         post = Post.objects.get(pk=post_pk)
@@ -88,9 +86,18 @@ def post_create(request):
 
 
 def post_modify(request, post_pk):
-    # 수정
+    post = Post.objects.get(pk=post_pk)
 
-    pass
+    if request.method == 'POST':
+        form = PostForm(data=request.POST, files=request.FILES, instance=post)
+        form.save()
+    else:
+        form = PostForm(instance=post)
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'post/post_create.html', context)
 
 
 def post_delete(request, post_pk):

@@ -1,4 +1,4 @@
-header.top-header { border-bottom: 1px solid rgba(0, 0, 0, 0.0975); }
+header.top-header { background-color: #fff; border-bottom: 1px solid rgba(0, 0, 0, 0.0975); }
 
 header.top-header > nav:nth-child(1) { max-width: 1010px; margin: 0 auto; padding: 0 10px; height: 83px; }
 
@@ -26,7 +26,7 @@ form.form-inline-login { font-size: 11px; }
 
 form.form-inline-login label { margin-right: 5px; }
 
-form.form-inline-login input { padding: 5px 8px; font-size: 11px; margin-left: 6px; }
+form.form-inline-login input { padding: 5px 8px; font-size: 11px; margin-right: 6px; }
 
 .container { max-width: 1010px; margin: 0 auto; padding-top: 40px; }
 

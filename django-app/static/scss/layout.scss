@@ -3,6 +3,7 @@
 $screen-tablet: 700px;
 $header-height: 83px;
 header.top-header {
+  background-color: #fff;
   border-bottom: 1px solid $color-border;
 }
 header.top-header > nav:nth-child(1) {
@@ -60,16 +61,16 @@ header.top-header > nav:nth-child(2) {
   }
 }
 
-form.form-inline-login{
+form.form-inline-login {
   font-size: 11px;
 
-  label{
+  label {
     margin-right: 5px;
   }
   input {
     padding: 5px 8px;
     font-size: 11px;
-    margin-left: 6px;
+    margin-right: 6px;
   }
 }
 .container {
