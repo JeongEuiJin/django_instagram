@@ -1,11 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.views.decorators.http import require_POST
 
 from post.forms import CommentForm
-from ..models import Post
+from ..models import Post, Comment
 
 User = get_user_model()
 
@@ -30,17 +30,30 @@ def comment_create(request, post_pk):
         comment.post = post
         comment.save()
     else:
-        result ='<br>'.join(['<br>'.join(v) for k,v in form.errors.values()])
-        messages.error(request,request)
+        result = '<br>'.join(['<br>'.join(v) for k, v in form.errors.values()])
+        messages.error(request, request)
         # messages.error(request,'comment form invalid')
     if next:
         return redirect(next)
     return redirect('post:post_detail', post_pk=post.pk)
 
 
-def comment_modify(request, post_pk):
-    # 수정
-    pass
+def comment_modify(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    next = request.POST.get('next')
+    if request.method == 'POST':
+        form = CommentForm(data=request.POST, instance=comment)
+        form.save()
+        if next:
+            return redirect(next)
+        return redirect('post:post_detail',post_pk=comment.post.pk)
+    else:
+        form = CommentForm(instance=comment)
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'post/comment_modify.html', context)
 
 
 def comment_delete(request, post_pk, comment_pk):
