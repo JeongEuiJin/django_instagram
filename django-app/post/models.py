@@ -4,6 +4,8 @@ member application생성
         username, nickname
 이후 해당 settings.AUTH_USER_MODEL모델을 Post나 Comment에서 author나 user항목으로 참조
 """
+import re
+
 from django.conf import settings
 from django.db import models
 
@@ -53,6 +55,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField()
+    html_content = models.TextField(blank=True)
     tags = models.ManyToManyField('Tag')
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -62,6 +65,25 @@ class Comment(models.Model):
         related_name='like_comments',
     )
 
+    def save(self, *args, **kwargs):
+        self.make_html_content_and_add_tags()
+        super().save(*args, **kwargs)
+
+    def make_html_content_and_add_tags(self):
+        p = re.compile(r'(#\w+)')
+        tag_name_list = re.findall(p, self.content)
+        ori_content = self.content
+        for tag_name in tag_name_list:
+            tag, _ = Tag.objects.get_or_create(name=tag_name.replace('#', ''))
+            ori_content = ori_content.replace(
+                tag_name,
+                '<a herf="#" class="hash-tag">{}</a>'.format(
+                    tag_name
+                )
+            )
+            if not self.tags.filter(pk=tag.pk).exists():
+                self.tags.add(tag)
+        self.html_content = ori_content
 
 class CommentLike(models.Model):
     comment = models.ForeignKey(Comment)

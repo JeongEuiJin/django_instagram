@@ -1,5 +1,7 @@
 .btn { padding: 6px 12px; border: 1px solid rgba(0, 0, 0, 0.0975); background-color: #fff; border-radius: 3px; cursor: pointer; text-decoration: none; font-size: 11px; }
 
+.btn-xs { font-size: 10px; padding: 2px 6px; }
+
 .field-wrapper { margin-bottom: 10px; }
 
 .field-wrapper ul.error { font-size: 11px; color: red; font-weight: bold; padding-left: 5px; }

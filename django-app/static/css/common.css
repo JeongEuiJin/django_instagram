@@ -8,6 +8,11 @@
   font-size: 11px;
 }
 
+.btn-xs {
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
 .field-wrapper {
   margin-bottom: 10px;
 }

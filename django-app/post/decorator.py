@@ -15,7 +15,7 @@ def post_owner(function):
 
 def comment_owner(f):
     def wrap(request, *args, **kwargs):
-        comment = Comment.objects.get(pk=kwargs['post_pk'])
+        comment = Comment.objects.get(pk=kwargs['comment_pk'])
         if request.user == comment.author:
             return f(request, *args, **kwargs)
         raise PermissionDenied
