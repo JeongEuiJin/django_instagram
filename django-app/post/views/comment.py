@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.decorators.http import require_POST
 
+from post.decorator import comment_owner
 from post.forms import CommentForm
 from ..models import Post, Comment
 
@@ -38,6 +39,8 @@ def comment_create(request, post_pk):
     return redirect('post:post_detail', post_pk=post.pk)
 
 
+@comment_owner
+@login_required
 def comment_modify(request, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     next = request.POST.get('next')
@@ -46,7 +49,7 @@ def comment_modify(request, comment_pk):
         form.save()
         if next:
             return redirect(next)
-        return redirect('post:post_detail',post_pk=comment.post.pk)
+        return redirect('post:post_detail', post_pk=comment.post.pk)
     else:
         form = CommentForm(instance=comment)
     context = {
@@ -56,6 +59,15 @@ def comment_modify(request, comment_pk):
     return render(request, 'post/comment_modify.html', context)
 
 
-def comment_delete(request, post_pk, comment_pk):
+@require_POST
+@login_required
+@comment_owner
+def comment_delete(request, comment_pk):
     # POST요청을 받아 Comment객체를 delete, 이후 post_detail페이지로 redirect
-    pass
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    post = comment.post
+    comment.delete()
+    next = request.POST.get('next')
+    if next:
+        return redirect(next)
+    return redirect('post:post_detail', post_pk=post.pk)
