@@ -43,3 +43,7 @@
 .field-wrapper form.form-inline {
   display: inline-block;
 }
+
+.field-wrapper a.hash-tag {
+  color: #44709c;
+}

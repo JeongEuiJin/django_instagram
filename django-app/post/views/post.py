@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from post.decorator import post_owner
 from post.forms import CommentForm
 from post.forms import PostForm
-from ..models import Post
+from ..models import Post, Tag
 
 User = get_user_model()
 
@@ -21,6 +21,7 @@ __all__ = (
     'post_delete',
     'post_detail',
     'post_modify',
+    'hashtag_post_list',
 )
 def post_list(request):
     # 모든 Post목록을 'posts'라는 key로 context에 담아 return render처리
@@ -127,3 +128,16 @@ def post_delete(request, post_pk):
             'post': post,
         }
         return render(request, 'post/post_delete.html', context)
+
+def hashtag_post_list(request,tag_name):
+    tag = get_object_or_404(Tag, name=tag_name)
+    posts = Post.objects.filter(comment__tags=tag).distinct()
+    posts_count = post.count()
+
+    context = {
+        'tag':tag,
+        'posts':posts,
+        'posts_count':posts_count,
+
+    }
+    return render(request, 'post/hashtag_post_list.html',context)
