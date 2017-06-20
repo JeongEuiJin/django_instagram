@@ -24,3 +24,5 @@
     color: #ccc;
     margin-top: 2px;
     margin-bottom: 0; }
+  .field-wrapper form.form-inline {
+    display: inline-block; }

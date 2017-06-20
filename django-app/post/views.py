@@ -3,10 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from django.urls import reverse
 
+from post.decorator import post_owner
 from post.forms import PostForm
 from .models import Post
 
@@ -43,6 +44,7 @@ def post_detail(request, post_pk):
     return HttpResponse(rendered_string)
 
 
+@post_owner
 @login_required
 def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
@@ -91,19 +93,29 @@ def post_modify(request, post_pk):
     if request.method == 'POST':
         form = PostForm(data=request.POST, files=request.FILES, instance=post)
         form.save()
+        return redirect('post:post_detail', post_pk=post.pk)
     else:
         form = PostForm(instance=post)
 
     context = {
         'form': form,
     }
-    return render(request, 'post/post_create.html', context)
+    return render(request, 'post/post_modify.html', context)
 
 
 def post_delete(request, post_pk):
     # post_pk에 해당하는 Post에 대한 delete요청만을 받음
     # 처리완료후에는 post_list페이지로 redirect
-    pass
+    post = get_object_or_404(Post, pk=post_pk)
+    if request.method == 'POST':
+
+        post.delete()
+        return redirect('post:post_list')
+    else:
+        context = {
+            'post': post,
+        }
+        return render(request, 'post/post_delete.html', context)
 
 
 def comment_create(request, post_pk):
