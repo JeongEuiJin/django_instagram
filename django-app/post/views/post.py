@@ -6,22 +6,32 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 from post.decorator import post_owner
+from post.forms import CommentForm
 from post.forms import PostForm
-from .models import Post
+from ..models import Post
 
 User = get_user_model()
 
-
+__all__ = (
+    'post_list',
+    'post_create',
+    'post_delete',
+    'post_detail',
+    'post_modify',
+)
 def post_list(request):
     # 모든 Post목록을 'posts'라는 key로 context에 담아 return render처리
     # post/post_list.html을 template으로 사용하도록 한다
 
     # 각 포스트에 대해 최대 4개까지의 댓글을 보여주도록 템플릿에 설정
+
     posts = Post.objects.all()
     context = {
         'posts': posts,
+        'comment_form': CommentForm(),
     }
     return render(request, 'post/post_list.html', context)
 
@@ -116,18 +126,3 @@ def post_delete(request, post_pk):
             'post': post,
         }
         return render(request, 'post/post_delete.html', context)
-
-
-def comment_create(request, post_pk):
-    # POST요청을 받아 Comment객체를 생성 후 post_detail페이지로 redirect
-    pass
-
-
-def comment_modify(request, post_pk):
-    # 수정
-    pass
-
-
-def comment_delete(request, post_pk, comment_pk):
-    # POST요청을 받아 Comment객체를 delete, 이후 post_detail페이지로 redirect
-    pass
