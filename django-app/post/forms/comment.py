@@ -10,10 +10,18 @@ class CommentForm(forms.ModelForm):
             'content',
         ]
         widgets = {
-            'content':forms.TextInput(
+            'content': forms.TextInput(
                 attrs={
-                    'class':'input-comment',
-                    'placeholder':'댓글달기',
+                    'class': 'input-comment',
+                    'placeholder': '댓글달기',
                 }
             )
         }
+
+    def clean_content(self):
+        content = self.cleaned_data['content']
+        if len(content) < 3:
+            raise ValueError(
+                '댓글은 최소 3자 이상이어야합니다'
+            )
+        return content

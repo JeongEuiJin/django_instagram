@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
@@ -8,7 +9,7 @@ from ..models import Post
 
 User = get_user_model()
 
-__all__= (
+__all__ = (
     'comment_create',
     'comment_delete',
     'comment_modify',
@@ -20,11 +21,21 @@ __all__= (
 def comment_create(request, post_pk):
     # POST요청을 받아 Comment객체를 생성 후 post_detail페이지로 redirect
     post = get_object_or_404(Post, pk=post_pk)
+    next = request.GET.get('next')
     form = CommentForm(request.POST)
 
     if form.is_valid():
-        form.save()
-        return redirect('post:post_detail', post_pk=post.pk)
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+    else:
+        result ='<br>'.join(['<br>'.join(v) for k,v in form.errors.values()])
+        messages.error(request,request)
+        # messages.error(request,'comment form invalid')
+    if next:
+        return redirect(next)
+    return redirect('post:post_detail', post_pk=post.pk)
 
 
 def comment_modify(request, post_pk):
