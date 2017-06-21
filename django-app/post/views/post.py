@@ -1,16 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse
-from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from django.urls import reverse
-from django.views.decorators.http import require_POST
 
 from post.decorator import post_owner
 from post.forms import CommentForm
-from post.forms import PostForm
+from ..forms import PostForm
 from ..models import Post, Tag
 
 User = get_user_model()
@@ -22,8 +21,11 @@ __all__ = (
     'post_detail',
     'post_modify',
     'hashtag_post_list',
+    'post_list_original',
 )
-def post_list(request):
+
+
+def post_list_original(request):
     # 모든 Post목록을 'posts'라는 key로 context에 담아 return render처리
     # post/post_list.html을 template으로 사용하도록 한다
 
@@ -33,6 +35,25 @@ def post_list(request):
     context = {
         'posts': posts,
         'comment_form': CommentForm(),
+    }
+    return render(request, 'post/post_list.html', context)
+
+
+def post_list(request):
+    posts = Post.objects.all()
+    paginator = Paginator(posts, 5)
+
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'posts':posts,
+        'comment_form':CommentForm()
     }
     return render(request, 'post/post_list.html', context)
 
@@ -55,7 +76,7 @@ def post_detail(request, post_pk):
     return HttpResponse(rendered_string)
 
 
-@post_owner
+
 @login_required
 def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect
@@ -129,15 +150,16 @@ def post_delete(request, post_pk):
         }
         return render(request, 'post/post_delete.html', context)
 
-def hashtag_post_list(request,tag_name):
+
+def hashtag_post_list(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
     posts = Post.objects.filter(comment__tags=tag).distinct()
-    posts_count = post.count()
+    posts_count = posts.count()
 
     context = {
-        'tag':tag,
-        'posts':posts,
-        'posts_count':posts_count,
+        'tag': tag,
+        'posts': posts,
+        'posts_count': posts_count,
 
     }
-    return render(request, 'post/hashtag_post_list.html',context)
+    return render(request, 'post/hashtag_post_list.html', context)
