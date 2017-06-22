@@ -1,16 +1,17 @@
 {% extends 'common/base.html'%}
+{% load custom_tags%}
 {% block content%}
-<div>
-			<a href="{% url 'post:post_create' %}" class="btn">Post Create</a>
-		</div>
+    <div>
+        {{request.GET|query_string}}
+    </div>
+
+
+
+
 
     {% for post in posts %}
-     {%include 'include/post.html'%}
+     {%include 'include/post.html' with type='list'%}
     {% endfor %}
-
-
-
-
 
     {% if posts.has_previous %}
     <a href="{{request.path}}?page=1" class="btn"> 첫 페이지</a>

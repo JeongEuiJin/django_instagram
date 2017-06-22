@@ -9,28 +9,31 @@
   text-decoration: none;
   font-size: 11px;
 }
-.btn-xs{
+.btn-xs {
   font-size: 10px;
   padding: 2px 6px;
-
+  border-radius: 1px;
+  line-height: 1.6;
 }
 .field-wrapper {
   margin-bottom: 10px;
 
-  ul.error {
+  ul.errors {
     font-size: 11px;
     color: red;
     font-weight: bold;
     padding-left: 5px;
-
   }
   label {
     font-size: 11px;
   }
-  input[type=text],input[type=password] {
+  input[type=text], input[type=password] {
     width: 100%;
     box-sizing: border-box;
-
+  }
+  input[type=file] {
+    width: 100%;
+    box-sizing: border-box;
   }
   p.help {
     font-size: 10px;
@@ -38,10 +41,10 @@
     margin-top: 2px;
     margin-bottom: 0;
   }
-  form.form-inline{
-    display: inline-block;
-  }
-  a.hash-tag {
-    color : $color-tag;
-  }
+}
+form.form-inline {
+  display: inline-block;
+}
+a.hash-tag {
+  color: $color-tag;
 }

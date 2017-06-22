@@ -75,6 +75,9 @@
 		</header>
 
 		<div class="container">
+			<div>
+			<a href="{% url 'post:post_create' %}" class="btn">Post Create</a>
+		</div>
 			{% block content %}
 			{% endblock %}
 		</div>
