@@ -8,16 +8,30 @@
   font-size: 11px;
 }
 
+.btn-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background-color: #3897f0;
+  color: white;
+}
+
 .btn-xs {
   font-size: 10px;
   padding: 2px 6px;
+  border-radius: 1px;
+  line-height: 1.6;
 }
 
 .field-wrapper {
   margin-bottom: 10px;
 }
 
-.field-wrapper ul.error {
+.field-wrapper ul.errors {
   font-size: 11px;
   color: red;
   font-weight: bold;
@@ -33,6 +47,11 @@
   box-sizing: border-box;
 }
 
+.field-wrapper input[type=file] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .field-wrapper p.help {
   font-size: 10px;
   color: #ccc;
@@ -40,10 +59,10 @@
   margin-bottom: 0;
 }
 
-.field-wrapper form.form-inline {
+form.form-inline {
   display: inline-block;
 }
 
-.field-wrapper a.hash-tag {
+a.hash-tag {
   color: #44709c;
 }

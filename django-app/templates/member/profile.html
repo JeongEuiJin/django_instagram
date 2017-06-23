@@ -1,0 +1,46 @@
+{% extends 'common/base.html'%}
+{%block content%}
+
+<div class="content">
+    <h3>{{cur_user}}</h3>
+
+    {%if user != cur_user%}
+        {%if cur_user in user.following%}
+        <button type="submit" class="btn">팔로우 취소</button>
+        {%else%}
+        <button type="submit" class="btn">팔로우</button>
+        {%endif%}
+    {%endif%}
+
+
+   <h5>Following</h5>
+    {%for u in cur_user.following%}
+    <div>
+        <a href="{%url 'member:profile' user_pk=u.pk%}" class="btn">{{u}}</a>
+        {{U}}
+    </div>
+    {% endfor %}
+
+    <h5>Flollowers</h5>
+    {%for u in cur_user.followers%}
+    <div>
+        <a href="{%url 'member:profile' user_pk=u.pk%}"></a>
+    </div>
+    {% endfor %}
+
+    <ul class="profile-photo-list">
+        {% for post in posts %}
+        <li>
+            <img src="{{ post.photo.url}}" alt="">
+        </li>
+        {%endfor%}
+    </ul>
+
+    {%if request.GET.page%}
+    <a href="%?page={{request.Get.page|add:1}}" class="btn">더 보기</a>
+    {%else%}
+    <a href="?page=2" class="btn-block">더 불러오기</a>
+    {%endif%}
+</div>
+
+{%endblock%}

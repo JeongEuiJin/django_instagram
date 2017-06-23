@@ -1,7 +1,7 @@
-from django.contrib.auth import authenticate, login as django_login, logout as django_logout, get_user_model
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.contrib.auth import login as django_login, logout as django_logout, get_user_model
+from django.shortcuts import render, redirect, get_object_or_404
 
+from post.models import Post
 from .forms import LoginForm
 from .forms import SigupForm
 
@@ -48,3 +48,31 @@ def signup(request):
         'form': form,
     }
     return render(request, 'member/signup.html', context)
+
+
+def profile(request, user_pk=None):
+
+    page = request.GET.get('page',1)
+    try:
+        page = int(page) if int(page) > 1 else 1
+
+    except ValueError:
+        page = 1
+
+    except Exception as e:
+        page = 1
+        print(e)
+
+
+    if user_pk:
+        user = get_object_or_404(User, pk=user_pk)
+    else:
+        user = request.user
+
+    posts = Post.objects.filter(author=user).order_by('-created_date')[:page*9]
+
+    context = {
+        'cur_user': user,
+        'posts':posts,
+    }
+    return render(request, 'member/profile.html', context)
