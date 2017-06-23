@@ -1,9 +1,16 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from utils.fields import CustomImageField
+
 
 class User(AbstractUser):
     nickname = models.CharField(max_length=24, null=True, unique=True)
+    img_profile = CustomImageField(
+        upload_to='user',
+        blank=True,
+        default_static_image='images/profile.png',
+    )
     relations = models.ManyToManyField(
         'self',
         through='Relation',
@@ -12,7 +19,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.nickname or self.username
-
 
     def follow(self, user):
         if not isinstance(user, User):
@@ -46,7 +52,6 @@ class User(AbstractUser):
     def following(self):
         relations = self.follow_relations.all()
         return User.objects.filter(pk__in=relations.values('to_user'))
-
 
     @property
     def followers(self):

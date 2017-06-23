@@ -1,44 +1,57 @@
-{% extends 'common/base.html'%}
-{%block content%}
+{% extends 'common/base.html' %}
 
-<div class="content">
-    <h3>{{cur_user}}</h3>
 
-    {%if user != cur_user%}
-        {%if cur_user in user.following%}
+{% block content %}
+<div class="content profile">
+
+    <h3>{{ cur_user }}</h3>
+    <img src="{{cur_user.img_profile.url}}" alt="" width="50">
+
+
+
+    {%if user.is_authenticated %}
+    {% if user != cur_user %}
+    <form action="{% url 'member:follow_toggle' user_pk=cur_user.pk %}" method="post">
+        {% csrf_token %}
+        {% if cur_user in user.following %}
         <button type="submit" class="btn">팔로우 취소</button>
-        {%else%}
+        {% else %}
         <button type="submit" class="btn">팔로우</button>
-        {%endif%}
+        {% endif %}
+    </form>
+    {%else%}
+    <a href="{%url 'member:profile_edit'%}" class="btn">PROFILE EDIT</a>
+    {% endif %}
     {%endif%}
 
 
-   <h5>Following</h5>
-    {%for u in cur_user.following%}
+    <h5>Following</h5>
+    {% for u in cur_user.following %}
     <div>
-        <a href="{%url 'member:profile' user_pk=u.pk%}" class="btn">{{u}}</a>
-        {{U}}
+        <a href="{% url 'member:profile' user_pk=u.pk %}" class="btn">{{ u }}</a>
     </div>
     {% endfor %}
 
-    <h5>Flollowers</h5>
-    {%for u in cur_user.followers%}
+    <h5>Followers</h5>
+    {% for u in cur_user.followers %}
     <div>
-        <a href="{%url 'member:profile' user_pk=u.pk%}"></a>
+        <a href="{% url 'member:profile' user_pk=u.pk %}" class="btn">{{ u }}</a>
     </div>
     {% endfor %}
 
     <ul class="profile-photo-list">
         {% for post in posts %}
         <li>
-            <img src="{{ post.photo.url}}" alt="">
+            <a href="{% url 'post:post_detail' post_pk=post.pk %}">
+                <img src="{{ post.photo.url }}" alt="">
+            </a>
         </li>
-        {%endfor%}
+        {% endfor %}
     </ul>
 
     {% if next_page %}
-    <a href="%?page={{page|add:1}}" class="btn btn-lg btn-block btn-primary">더 보기</a>
-    {%endif%}
-</div>
+    <a href="?page={{ next_page }}" class="btn btn-lg btn-primary btn-block">더 불러오기</a>
+    {% endif %}
 
-{%endblock%}
+</div>
+{% endblock %}
