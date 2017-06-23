@@ -1,7 +1,6 @@
 from django.contrib.auth import login as django_login, logout as django_logout, get_user_model
 from django.shortcuts import render, redirect, get_object_or_404
 
-from post.models import Post
 from .forms import LoginForm
 from .forms import SigupForm
 
@@ -51,8 +50,8 @@ def signup(request):
 
 
 def profile(request, user_pk=None):
-
-    page = request.GET.get('page',1)
+    NUM_POSTS_PER_PAGE = 3
+    page = request.GET.get('page', 1)
     try:
         page = int(page) if int(page) > 1 else 1
 
@@ -63,16 +62,20 @@ def profile(request, user_pk=None):
         page = 1
         print(e)
 
-
     if user_pk:
         user = get_object_or_404(User, pk=user_pk)
     else:
         user = request.user
 
-    posts = Post.objects.filter(author=user).order_by('-created_date')[:page*9]
+    posts = user.post_set.filter(author=user).order_by('-created_date')[:NUM_POSTS_PER_PAGE * 9]
+    post_count = user.post_set.filter(author=user).count()
+    next_page = page + 1 if post_count > NUM_POSTS_PER_PAGE * 9 else None
 
     context = {
         'cur_user': user,
-        'posts':posts,
+        'posts': posts,
+        'post_count': post_count,
+        'page': page,
+        'next_page':next_page,
     }
     return render(request, 'member/profile.html', context)

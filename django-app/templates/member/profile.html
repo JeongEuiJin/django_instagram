@@ -36,10 +36,8 @@
         {%endfor%}
     </ul>
 
-    {%if request.GET.page%}
-    <a href="%?page={{request.Get.page|add:1}}" class="btn">더 보기</a>
-    {%else%}
-    <a href="?page=2" class="btn-block">더 불러오기</a>
+    {% if next_page %}
+    <a href="%?page={{page|add:1}}" class="btn btn-lg btn-block btn-primary">더 보기</a>
     {%endif%}
 </div>
 
