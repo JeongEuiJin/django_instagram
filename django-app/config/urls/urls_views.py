@@ -18,13 +18,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 # from post import views as post_views
 from config import settings
-from . import views
+from .. import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^post/', include('post.urls')),
-    url(r'^member/',include('member.urls')),
-    url(r'^$',views.main_post,name='main_post'),
+    url(r'^post/', include('post.urls.urls_views')),
+    url(r'^member/', include('member.urls')),
+    url(r'^$', views.main_post,name='main_post'),
     # url(r'^$',RedirectViews.as_view()
 
 

@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.db import models
 
-from .others import Tag
 from utils.fields import CustomImageField
+from .others import Tag
 
 __all__ = (
     'Post',
@@ -11,7 +11,6 @@ __all__ = (
 
 
 class Post(models.Model):
-
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     photo = CustomImageField(upload_to='post', blank=True)
     video = models.ForeignKey('Video', blank=True, null=True)
