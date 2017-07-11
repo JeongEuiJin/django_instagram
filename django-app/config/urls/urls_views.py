@@ -23,7 +23,7 @@ from .. import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^post/', include('post.urls.urls_views')),
-    url(r'^member/', include('member.urls')),
+    url(r'^member/', include('member.urls.urls_views')),
     url(r'^$', views.main_post,name='main_post'),
     # url(r'^$',RedirectViews.as_view()
 
