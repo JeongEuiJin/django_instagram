@@ -25,6 +25,10 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = 'member.User'
 LOGIN_URL='member:login'
 
+#FACEBOOK
+FACEBOOK_APP_ID = '806234899536173'
+FACEBOOK_SECRET_CODE = 'cb8e8424815d92ab9d019355a46b1b07'
+
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -84,6 +88,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # Custom context processors
                 'member.context_processors.forms',
+                'utils.context_processors.facebook_info',
 
             ],
         },
@@ -95,13 +100,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'instagram',
+        'USER': 'ejjeong-s',
+        'PASSWORD': 'ejjeong-s',
+        'HOST': 'localhost',
+        'PORT': '5432',
+
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

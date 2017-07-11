@@ -8,7 +8,7 @@ class CustomImageFieldFile(ImageFieldFile):
             return super().url
         except ValueError:
             from django.contrib.staticfiles.storage import staticfiles_storage
-            return staticfiles_storage.url(self.field.햣static_image_path)
+            return staticfiles_storage.url(self.field.static_image_path)
 
 class CustomImageField(ImageField):
     attr_class = CustomImageFieldFile

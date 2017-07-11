@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class SigupForm(forms.Form):
+class SignupForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput
     )

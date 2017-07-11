@@ -9,9 +9,10 @@ from django.views.decorators.http import require_POST
 
 from post.decorators import post_owner
 from post.forms import CommentForm
-from ..forms import PostForm
-from ..models import Post, Tag
+from post.models import Tag
 
+from ..forms import PostForm
+from ..models import Post
 
 User = get_user_model()
 
@@ -139,4 +140,3 @@ def hashtag_post_list(request, tag_name):
         'posts_count': posts_count,
     }
     return render(request, 'post/hashtag_post_list.html', context)
-
